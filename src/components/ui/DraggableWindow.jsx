@@ -62,10 +62,10 @@ export default function DraggableWindow({
 
   const style = window.maximized
     ? {
-        top: 28,
-        left: 0,
+        top: window.y,
+        left: window.x,
         width: "100%",
-        height: "calc(100% - 28px - 80px)",
+        height: "100%",
         zIndex: window.zIndex,
       }
     : {

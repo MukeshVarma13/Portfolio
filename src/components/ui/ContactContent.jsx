@@ -22,19 +22,19 @@ const SOCIALS = [
   {
     name: "LinkedIn",
     icon: <Linkedin size={20} />,
-    url: "https://linkedin.com/in/yourusername",
+    url: "https://www.linkedin.com/in/mukesh-varma-b9749330a",
     color: "hover:text-blue-400",
   },
   {
     name: "Twitter",
     icon: <Twitter size={20} />,
-    url: "https://twitter.com/yourusername",
+    url: "https://x.com/Mukesh_Varma13",
     color: "hover:text-sky-400",
   },
   {
     name: "Email",
     icon: <Mail size={20} />,
-    url: "mailto:your@email.com",
+    url: "mailto:mukeshvarma7676@gmail.com",
     color: "hover:text-emerald-400",
   },
 ];

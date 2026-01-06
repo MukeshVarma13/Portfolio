@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import { ABOUT_DATA } from "../data/terminalData";
-import { User, MapPin, Calendar, Code2, Coffee, Globe } from "lucide-react";
+import { ABOUT_DATA, NOW_BUILDING } from "../data/terminalData";
+import {
+  User,
+  MapPin,
+  Calendar,
+  Code2,
+  Coffee,
+  Globe,
+  DotIcon,
+} from "lucide-react";
 
 export default function AboutContent() {
   const [showMore, setShowMore] = useState(false);
@@ -132,13 +140,22 @@ export default function AboutContent() {
 
           {/* 5. FUN FACT / HOBBY */}
           <BentoCard className="p-6 flex flex-col justify-center">
-            <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center mb-3 text-amber-500">
-              <Coffee size={20} />
+            <div className="flex gap-2">
+              <div className="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center mb-3 text-amber-500 shrink-0">
+                <Coffee size={20} />
+              </div>
+              <div className="text-zinc-200 font-medium">
+                {NOW_BUILDING.title}
+              </div>
             </div>
-            <div className="text-zinc-200 font-medium">Fueled by Coffee</div>
-            <p className="text-zinc-500 text-xs mt-1">
-              And a passion for clean, performant code.
-            </p>
+            <div className="grid flex-col">
+              {NOW_BUILDING.items.map((item, index) => (
+                <span className="flex" key={index}>
+                  <DotIcon size={25} className="shrink-0" />
+                  <p className="text-zinc-500 text-xs mt-1">{item}</p>
+                </span>
+              ))}
+            </div>
           </BentoCard>
         </div>
       </div>

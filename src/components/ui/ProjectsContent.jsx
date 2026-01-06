@@ -4,14 +4,14 @@ import { ExternalLink, Github, Star, Radio } from "lucide-react";
 
 export default function ProjectsContent() {
   const handleOpenUrl = (url) => {
-    if (typeof window !== "undefined" && window.parent) {
-      window.parent.postMessage(
-        { type: "OPEN_EXTERNAL_URL", data: { url } },
-        "*"
-      );
-    } else {
+    // if (typeof window !== "undefined" && window.parent) {
+    //   window.parent.postMessage(
+    //     { type: "OPEN_EXTERNAL_URL", data: { url } },
+    //     "*"
+    //   );
+    // } else {
       window.open(url, "_blank");
-    }
+    // }
   };
 
   return (
@@ -133,7 +133,7 @@ function ProjectCard({ project, index, onOpen }) {
 
         {/* Tech Stack Pills */}
         <div className="flex flex-wrap gap-1.5 mb-6 mt-auto">
-          {project.tech.slice(0, 4).map((t) => (
+          {project.tech.map((t) => (
             <span
               key={t}
               className="px-2 py-1 bg-white/5 rounded text-[10px] font-medium text-zinc-300 border border-white/5"
@@ -141,11 +141,6 @@ function ProjectCard({ project, index, onOpen }) {
               {t}
             </span>
           ))}
-          {project.tech.length > 4 && (
-            <span className="px-2 py-1 bg-white/5 rounded text-[10px] font-medium text-zinc-500 border border-white/5">
-              +{project.tech.length - 4}
-            </span>
-          )}
         </div>
 
         {/* Action Buttons */}
