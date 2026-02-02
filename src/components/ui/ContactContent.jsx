@@ -62,21 +62,41 @@ export default function ContactContent({ onClose }) {
     return Object.keys(newErrors).length === 0;
   };
 
+  const accessKey = import.meta.env.VITE_ACCESS_KEY;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
     setStatus("loading");
 
-    // Simulate API Call (Replace with EmailJS or your backend)
-    setTimeout(() => {
-      console.log("Form Data:", formData);
-      setStatus("success");
-      setFormData({ name: "", email: "", message: "" });
+    const sendData = new FormData();
+    sendData.append("access_key", accessKey);
+    sendData.append("Name", formData.name);
+    sendData.append("Email", formData.email);
+    sendData.append("Message", formData.message);
 
-      // Reset status after 3 seconds
-      setTimeout(() => setStatus("idle"), 3000);
-    }, 2000);
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: sendData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // console.log("Form Submitted Successfully", data);
+        setStatus("success");
+        setFormData({ name: "", email: "", message: "" });
+        setTimeout(() => setStatus("idle"), 3000);
+      } else {
+        // console.log("Error", data);
+        setStatus("error");
+      }
+    } catch (error) {
+      // console.error("Submission failed", error);
+      setStatus("error");
+    }
   };
 
   const handleOpenUrl = (url) => {
