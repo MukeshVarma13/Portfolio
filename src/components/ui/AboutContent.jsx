@@ -28,8 +28,9 @@ export default function AboutContent() {
           {/* 1. HERO CARD (Span 2 cols) */}
           <BentoCard className="md:col-span-2 flex flex-col justify-center p-8 min-h-[240px]">
             <div className="flex items-start gap-6">
-              <div className="w-20 h-20 shrink-0 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/20">
-                <User size={40} className="text-white" />
+              <div className="w-20 h-20 shrink-0 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-violet-500/20 overflow-hidden">
+                {/* <User size={40} className="text-white" /> */}
+                <img src="profile.png" alt="Mukesh Varma"/>
               </div>
               <div>
                 <motion.h1

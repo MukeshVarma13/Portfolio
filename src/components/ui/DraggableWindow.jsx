@@ -10,6 +10,7 @@ export default function DraggableWindow({
   onMaximize,
   onFocus,
   onUpdatePosition,
+  maximedAndDragged,
   children,
 }) {
   const [isDragging, setIsDragging] = useState(false);
@@ -22,12 +23,19 @@ export default function DraggableWindow({
       e.target.closest("a")
     )
       return;
-    setIsDragging(true);
-    setDragOffset({
-      x: e.clientX - window.x,
-      y: e.clientY - window.y,
-    });
+
     onFocus();
+    setIsDragging(true);
+
+    if (window.maximized) {
+      const correctedOffset = maximedAndDragged(window.id, e);
+      setDragOffset(correctedOffset);
+    } else {
+      setDragOffset({
+        x: e.clientX - window.x,
+        y: e.clientY - window.y,
+      });
+    }
   };
 
   useEffect(() => {
@@ -36,11 +44,11 @@ export default function DraggableWindow({
     const handleMouseMove = (e) => {
       const newX = Math.max(
         0,
-        Math.min(e.clientX - dragOffset.x, globalThis.innerWidth - 100)
+        Math.min(e.clientX - dragOffset.x, globalThis.innerWidth - 100),
       );
       const newY = Math.max(
         28,
-        Math.min(e.clientY - dragOffset.y, globalThis.innerHeight - 100)
+        Math.min(e.clientY - dragOffset.y, globalThis.innerHeight - 100),
       );
       onUpdatePosition(window.id, newX, newY);
     };
@@ -62,8 +70,8 @@ export default function DraggableWindow({
 
   const style = window.maximized
     ? {
-        top: window.y,
-        left: window.x,
+        top: 0,
+        left: 0,
         width: "100%",
         height: "100%",
         zIndex: window.zIndex,

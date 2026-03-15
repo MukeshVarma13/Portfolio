@@ -19,6 +19,7 @@ export default function MacDesktop() {
     maximizeWindow,
     focusWindow,
     updateWindowPosition,
+    maximedAndDragged,
   } = useWindowManager();
 
   const renderWindowContent = (win) => {
@@ -70,6 +71,7 @@ export default function MacDesktop() {
             onMaximize={() => maximizeWindow(win.id)}
             onFocus={() => focusWindow(win.id)}
             onUpdatePosition={updateWindowPosition}
+            maximedAndDragged={maximedAndDragged}
           >
             {renderWindowContent(win)}
           </DraggableWindow>

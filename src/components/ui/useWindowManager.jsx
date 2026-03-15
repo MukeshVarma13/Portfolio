@@ -24,21 +24,21 @@ export default function useWindowManager() {
       if (existingWindow) {
         setActiveWindow(existingWindow.id);
         // if (existingWindow.minimized) {
-          setWindows((prev) =>
-            prev.map((w) =>
-              w.id === existingWindow.id
-                ? { ...w, minimized: false, zIndex: nextZIndex.current++ }
-                : w
-            )
-          );
+        setWindows((prev) =>
+          prev.map((w) =>
+            w.id === existingWindow.id
+              ? { ...w, minimized: false, zIndex: nextZIndex.current++ }
+              : w,
+          ),
+        );
         // }
         setActiveWindow(existingWindow.id);
         setWindows((prev) =>
           prev.map((w) =>
             w.id === existingWindow.id
               ? { ...w, zIndex: nextZIndex.current++ }
-              : w
-          )
+              : w,
+          ),
         );
         return;
       }
@@ -58,8 +58,41 @@ export default function useWindowManager() {
       setWindows((prev) => [...prev, newWindow]);
       setActiveWindow(newWindow.id);
     },
-    [windows]
+    [windows],
   );
+
+  const maximedAndDragged = useCallback((id, e) => {
+    const defaultWidth = 700;
+    const defaultHeight = 450;
+
+    let newX = e.clientX - defaultWidth / 2;
+    let newY = e.clientY - 20;
+
+    newX = Math.max(0, Math.min(newX, window.innerWidth - defaultWidth));
+    newY = Math.max(28, Math.min(newY, window.innerHeight - defaultHeight));
+
+    setWindows((prev) =>
+      prev.map((w) =>
+        w.id === id
+          ? {
+              ...w,
+              x: newX,
+              y: newY,
+              width: defaultWidth,
+              height: defaultHeight,
+              maximized: false,
+              minimized: false,
+              zIndex: nextZIndex.current++,
+            }
+          : w,
+      ),
+    );
+
+    return {
+      x: e.clientX - newX,
+      y: e.clientY - newY,
+    };
+  }, []);
 
   const closeWindow = useCallback((id) => {
     // if (id === "main") return;
@@ -68,7 +101,7 @@ export default function useWindowManager() {
 
   const minimizeWindow = useCallback((id) => {
     setWindows((prev) =>
-      prev.map((w) => (w.id === id ? { ...w, minimized: true } : w))
+      prev.map((w) => (w.id === id ? { ...w, minimized: true } : w)),
     );
   }, []);
 
@@ -77,8 +110,8 @@ export default function useWindowManager() {
       prev.map((w) =>
         w.id === id
           ? { ...w, maximized: !w.maximized, zIndex: nextZIndex.current++ }
-          : w
-      )
+          : w,
+      ),
     );
   }, []);
 
@@ -86,8 +119,8 @@ export default function useWindowManager() {
     setActiveWindow(id);
     setWindows((prev) =>
       prev.map((w) =>
-        w.id === id ? { ...w, zIndex: nextZIndex.current++ } : w
-      )
+        w.id === id ? { ...w, zIndex: nextZIndex.current++ } : w,
+      ),
     );
   }, []);
 
@@ -104,5 +137,6 @@ export default function useWindowManager() {
     maximizeWindow,
     focusWindow,
     updateWindowPosition,
+    maximedAndDragged,
   };
 }
