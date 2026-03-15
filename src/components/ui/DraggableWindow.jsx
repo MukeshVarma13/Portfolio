@@ -87,12 +87,17 @@ export default function DraggableWindow({
   return (
     <motion.div
       initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      animate={{
+        scale: 1,
+        opacity: 1,
+        borderRadius: window.maximized ? 0 : 12,
+      }}
       exit={{ scale: 0.9, opacity: 0 }}
-      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+      transition={{ type: "spring", stiffness: 400, damping: 30, }}
       className={`absolute rounded-xl overflow-hidden flex flex-col font-mono text-sm shadow-2xl ${
         isActive ? "ring-1 ring-white/20" : ""
       }`}
+      layout={!isDragging}
       style={style}
       onClick={onFocus}
     >
